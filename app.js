@@ -103,14 +103,15 @@ function mainMenu(person, people) {
         case "info":
             //! TODO: Declare a findPersonInfo function //////////////////////////////////////////
             // HINT: Look for a person-object stringifier utility function to help
-            let personInfo = findPersonInfo(person[0]);
+            let personInfo = displayPerson(person[0]);
             alert(personInfo);
             break;
         case "family":
             //! TODO: Declare a findPersonFamily function //////////////////////////////////////////
             // HINT: Look for a people-collection stringifier utility function to help
             let personFamily = findPersonFamily(person[0], people);
-            alert(personFamily);
+            let family = displayPeople(personFamily)
+            alert(family);
             break;
         case "descendants":
             //! TODO: Declare a findPersonDescendants function //////////////////////////////////////////
@@ -132,10 +133,16 @@ function mainMenu(person, people) {
 }
 // End of mainMenu()
 
-//findPersonInfo 
-
-function findPersonInfo(person){
-
+//findPersonFamily
+function findPersonFamily(person,people){
+    let res = people.filter(function(el){
+        if(el.currentSpouse === person.id){
+            return true
+        }else{
+            return false
+        }
+    })
+    return res
 }
 
 /**
@@ -195,15 +202,6 @@ function displayPerson(person) {
     alert(personInfo);
 }
 
-// "gender": "male",
-// "dob": "1/18/1949",
-// "height": 71,
-// "weight": 175,
-// "eyeColor": "brown",
-// "occupation": "programmer",
-// "parents": [],
-// "currentSpouse": 401222887
-// End of displayPerson()
 
 /**
  * This function's purpose is twofold:
