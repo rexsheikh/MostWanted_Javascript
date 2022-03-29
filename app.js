@@ -111,7 +111,7 @@ function mainMenu(person, people) {
             // HINT: Look for a people-collection stringifier utility function to help
             let personFamily = findPersonFamily(person[0], people);
             let family = displayPeople(personFamily)
-            alert(family);
+            alert(`${family}`);
             break;
         case "descendants":
             //! TODO: Declare a findPersonDescendants function //////////////////////////////////////////
@@ -135,9 +135,10 @@ function mainMenu(person, people) {
 
 //findPersonFamily
 function findPersonFamily(person,people){
+    
     let res = people.filter(function(el){
-        if(el.currentSpouse === person.id || el.parents.includes(person.id)||person.parents.includes(el.id)){
-            return true
+        if(el.currentSpouse === person.id){ //|| el.parents.includes(person.id)||person.parents.includes(el.id)){
+            return true,relation
         }else{
             return false
         }
