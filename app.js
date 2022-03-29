@@ -106,13 +106,14 @@ function mainMenu(person, people) {
             let personInfo = displayPerson(person[0]);
             alert(personInfo);
             break;
-        case "family":
-            //! TODO: Declare a findPersonFamily function //////////////////////////////////////////
-            // HINT: Look for a people-collection stringifier utility function to help
-            let personFamily = findPersonFamily(person[0], people);
-            let family = displayPeople(personFamily)
-            alert(`${family}`);
-            break;
+
+            case "family":
+                //! TODO: Declare a findPersonFamily function //////////////////////////////////////////
+                // HINT: Look for a people-collection stringifier utility function to help
+                alert(`Parent(s): ${findPersonParent(person[0], people)} 
+                Spouse: ${findPersonSpouse(person[0], people)}`);
+                break;
+
         case "descendants":
             //! TODO: Declare a findPersonDescendants function //////////////////////////////////////////
             // HINT: Review recursion lecture + demo for bonus user story
@@ -134,16 +135,39 @@ function mainMenu(person, people) {
 // End of mainMenu()
 
 //findPersonFamily
-function findPersonFamily(person,people){
-    
-    let res = people.filter(function(el){
-        if(el.currentSpouse === person.id){ //|| el.parents.includes(person.id)||person.parents.includes(el.id)){
-            return true,relation
-        }else{
-            return false
+
+function findPersonParent(person, people){
+    let parent1;
+    let parent2;
+    if (person.parents.length === 0){
+        return('No parents')
+    } else if (person.parents.length === 1){
+        for (let i = 0; i < people.length; i++) {
+          if (person.parents[0] === people[i].id) {
+            return(`${people[i].firstName} ${people[i].lastName}`);
+          }
+
         }
-    })
-    return res
+    } else if (person.parents.length === 2){
+      for (let i = 0; i < people.length; i++) {
+        if (person.parents[0] === people[i].id){
+          parent1 = people[i];
+        } else if (person.parents[1] === people[i].id){
+          parent2 = people[i];
+        } 
+       }return(`${parent1.firstName} ${parent1.lastName} and ${parent2.firstName} ${parent2.lastName}`)}
+}
+
+function findPersonSpouse(person, people){
+    if (person.currentSpouse === null){
+        return('No Spouse')
+    } else {
+        for (let i=0; i < people.length; i++) {
+            if (person.currentSpouse === people[i].id){
+                return(`${people[i].firstName} ${people[i].lastName}`);
+            }
+        }
+    }
 }
 
 /**
