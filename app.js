@@ -132,6 +132,12 @@ function mainMenu(person, people) {
 }
 // End of mainMenu()
 
+//findPersonInfo 
+
+function findPersonInfo(person){
+
+}
+
 /**
  * This function is used when searching the people collection by
  * a person-object's firstName and lastName properties.
@@ -177,9 +183,26 @@ function displayPeople(people) {
 function displayPerson(person) {
     let personInfo = `First Name: ${person.firstName}\n`;
     personInfo += `Last Name: ${person.lastName}\n`;
+    personInfo += `Gender: ${person.gender}\n`;
+    personInfo += `DoB: ${person.dob}\n`;
+    personInfo += `Height: ${person.height}\n`;
+    personInfo += `Weight: ${person.weight}\n`;
+    personInfo += `eyeColor: ${person.eyeColor}\n`;
+    personInfo += `Occupation: ${person.occupation}\n`;
+    personInfo += `Parents: ${person.parents}\n`;
+    personInfo += `currentSpouse: ${person.currentSpouse}`
     //! TODO: finish getting the rest of the information to display //////////////////////////////////////////
     alert(personInfo);
 }
+
+// "gender": "male",
+// "dob": "1/18/1949",
+// "height": 71,
+// "weight": 175,
+// "eyeColor": "brown",
+// "occupation": "programmer",
+// "parents": [],
+// "currentSpouse": 401222887
 // End of displayPerson()
 
 /**
