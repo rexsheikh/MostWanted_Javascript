@@ -108,10 +108,15 @@ function mainMenu(person, people) {
             break;
 
             case "family":
+                let siblings = findPersonSiblings(person[0],people)
                 //! TODO: Declare a findPersonFamily function //////////////////////////////////////////
                 // HINT: Look for a people-collection stringifier utility function to help
+                let showSiblings = siblingsMap(siblings)
+                let children = findPersonChildren(person[0],people)
+                let showChildren = childrenMap(children)
                 alert(`Parent(s): ${findPersonParent(person[0], people)} 
-                Spouse: ${findPersonSpouse(person[0], people)} Children: ${findPersonChildren(person[0],people)}`);
+                Spouse: ${findPersonSpouse(person[0], people)} Children: ${showChildren}
+                Siblings: ${showSiblings}`);
                 break;
 
         case "descendants":
@@ -171,14 +176,57 @@ function findPersonSpouse(person, people){
 }
 
 function findPersonChildren(person,people){
-    for(let i = 0; i < people.length; i++){
-        if(people[i].parents.includes(person.id)){
-            return `${people[i].firstName} ${people[i].lastName}`
+    let res = people.filter(function(el){
+        if(el.parents.includes(person.id)){
+            return true
         }else{
-            continue
+            return false
         }
-    }
+    })
+    return res
 }
+
+function childrenMap(children){
+    let res = children.map(function(el){
+        return el.firstName + ' ' + el.lastName
+    })
+    return res
+}
+
+//     for(let i = 0; i < people.length; i++){
+//         if(people[i].parents.includes(person.id)){
+//             return `${people[i].firstName} ${people[i].lastName}`
+//         }else{
+//             continue
+//         }
+//     }
+// }
+
+function findPersonSiblings(person,people){
+    let res = people.filter(function(el){
+        if(el.parents.join('') === person.parents.join('') && person.id != el.id){
+            return true
+        }else{
+            return false
+        }
+    })
+    return res
+}
+
+function siblingsMap(siblings){
+    let res = siblings.map(function(el){
+        return el.firstName + ' ' + el.lastName
+    })
+    return res
+}
+//     for(let i = 0; i < people.length; i++){
+//         if(people[i].parents.join('') === person.parents.join('') && (people[i].id != person.id)){
+//             return `${people[i].firstName} ${people[i].lastName}`
+//         }else{
+//             continue
+//         }
+// }
+// }
 
 //     let res = people.filter(function(el){
 //         if(el.parents.includes(person.id)){
