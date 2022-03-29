@@ -136,7 +136,7 @@ function mainMenu(person, people) {
 //findPersonFamily
 function findPersonFamily(person,people){
     let res = people.filter(function(el){
-        if(el.currentSpouse === person.id){
+        if(el.currentSpouse === person.id || el.parents.includes(person.id)||person.parents.includes(el.id)){
             return true
         }else{
             return false
