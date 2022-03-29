@@ -42,6 +42,44 @@ function app(people) {
 }
 // End of app()
 
+function searchByTrait(people) {
+    let searchResults;
+    let userInput = prompt(
+        "Would you like to search by Gender, DOB, Weight, Height, Eye Color, or Occupation? Or press 1 to search multiple traits"
+    );
+    userInput = userInput.toLowerCase();
+    switch(userInput) {
+        case "1":
+            searchResults = searchMultiTraits(people);
+            break;
+        case "gender":
+            searchResults = searchByGender(people);
+            break;
+        case "dob": 
+            searchResults = searchByDOB(people);
+            break;
+        case "weight":
+            searchResults = searchByWeight(people);
+            break;
+        case "height":
+            searchResults = searchByHeight(people);
+            break;
+        case "eye color":
+            searchResults = searchByEyeColor(people);
+            break;
+        case "occupation":
+            searchResults = searchByOccupation(people);
+            break;
+        default:
+            alert("Invalid Input");
+            chooseSearch();
+            break;
+    }
+    return searchResults;
+}
+
+
+
 /**
  * After finding a single person, we pass in the entire person-object that we found,
  * as well as the entire original dataset of people. We need people in order to find
@@ -152,9 +190,11 @@ function displayPerson(person) {
  * @param {Function} valid      A callback function used to validate basic user input.
  * @returns {String}            The valid string input retrieved from the user.
  */
-function promptFor(question, valid) {
+ function promptFor(question, valid) {
+    let isValid;
     do {
         var response = prompt(question).trim();
+        isValid = valid(response);
     } while (!response || !valid(response));
     return response;
 }
@@ -165,8 +205,12 @@ function promptFor(question, valid) {
  * @param {String} input        A string that will be normalized via .toLowerCase().
  * @returns {Boolean}           The result of our condition evaluation.
  */
-function yesNo(input) {
-    return input.toLowerCase() === "yes" || input.toLowerCase() === "no";
+ function yesNo(input) {
+    if (input.toLowerCase() == "yes" || input.toLowerCase() == "no") {
+        return true;
+      } else {
+            return false;
+        }
 }
 // End of yesNo()
 
