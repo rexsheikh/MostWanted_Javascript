@@ -111,7 +111,7 @@ function mainMenu(person, people) {
                 //! TODO: Declare a findPersonFamily function //////////////////////////////////////////
                 // HINT: Look for a people-collection stringifier utility function to help
                 alert(`Parent(s): ${findPersonParent(person[0], people)} 
-                Spouse: ${findPersonSpouse(person[0], people)}`);
+                Spouse: ${findPersonSpouse(person[0], people)} Children: ${findPersonChildren(person[0],people)}`);
                 break;
 
         case "descendants":
@@ -169,6 +169,26 @@ function findPersonSpouse(person, people){
         }
     }
 }
+
+function findPersonChildren(person,people){
+    for(let i = 0; i < people.length; i++){
+        if(people[i].parents.includes(person.id)){
+            return `${people[i].firstName} ${people[i].lastName}`
+        }else{
+            continue
+        }
+    }
+}
+
+//     let res = people.filter(function(el){
+//         if(el.parents.includes(person.id)){
+//             return `${el.firstName} ${el.lastName}`
+//         }else{
+//             return null
+//         }
+//     })
+//     return res
+// }
 
 /**
  * This function is used when searching the people collection by
