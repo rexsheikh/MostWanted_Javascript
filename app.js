@@ -54,6 +54,7 @@ function searchByTrait(people) {
             break;
         case "gender":
             searchResults = searchByGender(people);
+            displayPeople(searchResults)
             break;
         case "dob": 
             searchResults = searchByDOB(people);
@@ -80,14 +81,15 @@ function searchByTrait(people) {
 
 
 function searchByGender(people) {
-    let gender = promptFor("What is the gender (male or female) of the person you're looking for?", isValid).toLowerCase();
+    let gender = promptFor("What is the gender (male or female) of the person you're looking for?", chars).toLowerCase();
     let res = people.filter(function(el){
         if (el.gender == gender) {
             return true;
+        }else{
+            return false;
         }
-    })
-    displayPeople(res);
-    // return res;
+    });
+    return res;
 }
 
 function searchByDOB(people) {
@@ -157,7 +159,8 @@ function mainMenu(person, people) {
             //! TODO: Declare a findPersonDescendants function //////////////////////////////////////////
             // HINT: Review recursion lecture + demo for bonus user story
             let personDescendants = findPersonDescendants(person[0], people);
-            alert(personDescendants);
+            let showDescendants = displayPeople(personDescendants)
+            alert(`${showDescendants}`);
             break;
         case "restart":
             // Restart app() from the very beginning
@@ -199,11 +202,12 @@ function searchByName(people) {
  * to the user in the form of an alert().
  * @param {Array} people        A collection of person objects.
  */
-function displayPeople(people) {
-        let res = people.map(function (person) {
-                return person.firstName + ' ' + person.lastName;
-            })
-        return res
+ function displayPeople(people) {
+    let res = people.map(function (person) {
+            return person.firstName + ' ' + person.lastName;
+        })
+    .join("\n");
+    return res
 }
 // End of displayPeople()
 
@@ -345,11 +349,38 @@ function findPersonChildren(person,people){
 ///Find siblings
 function findPersonSiblings(person,people){
     let res = people.filter(function(el){
-        if(el.parents.join('') === person.parents.join('') && person.id != el.id){
-            return true
-        }else{
-            return false
-        }
-    })
-    return res
+        if(person.parents.length != 0){
+            if(el.parents.join('') === person.parents.join('') && person.id != el.id){
+                return true
+            }else{
+                return false
+            }}
+        })
+        return res
+    }
+
+
+//Recursive Descendants 
+//
+function findPersonDescendants(person,people,array = []){
+    let subArray = findPersonChildren(person,people);
+    array = [person.id]
+    if(subArray.length === 0){
+        return array
+    }
+    for(let i = 0; i < subArray.length; i++){
+        array = array.concat(findPersonDescendants(subArray[i],people))
+    }
+    return array
 }
+
+// function findPersonChildren(person,people){
+//     let res = people.filter(function(el){
+//         if(el.parents.includes(person.id)){
+//             return true
+//         }else{
+//             return false
+//         }
+//     })
+//     return res
+// }
