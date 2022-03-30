@@ -317,4 +317,3 @@ function findPersonSiblings(person,people){
     })
     return res
 }
-///
