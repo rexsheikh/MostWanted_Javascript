@@ -79,6 +79,42 @@ function searchByTrait(people) {
 }
 
 
+function searchByGender(people) {
+    let gender = promptFor("What is the gender (male or female) of the person you're looking for?", isValid).toLowerCase();
+    let res = people.filter(function(el){
+        if (el.gender == gender) {
+            return true;
+        }
+    })
+    displayPeople(res);
+    // return res;
+}
+
+function searchByDOB(people) {
+
+}
+
+function searchByWeight(people) {
+
+}
+
+function searchByHeight(people) {
+
+}
+
+function searchByEyeColor(people) {
+
+}
+
+function searchByOccupation(people) {
+
+}
+
+function searchByMultipleTraits(people) {
+
+}
+
+
 
 /**
  * After finding a single person, we pass in the entire person-object that we found,
