@@ -26,7 +26,7 @@ function app(people) {
     // Routes our application based on the user's input
     switch (searchType) {
         case "yes":
-            searchResults = searchByName(people);
+            searchResults = searchByName(people,chars);
             break;
         case "no":
             //! TODO: Declare a searchByTrait function //////////////////////////////////////////
@@ -230,10 +230,31 @@ function displayPerson(person) {
  * @param {String} input        A string.
  * @returns {Boolean}           Default validation -- no logic yet.
  */
-function chars(input) {
-    return true; // Default validation only
+function range(start,end){
+    let range = [];
+    for(let i = start; i <= end; i++){
+        range.push(i)
+    }
+    return range
 }
-// End of chars()
+
+function chars(input) {
+    let isValid = true
+    let az = range(65,90)
+    let AZ = range(97,122)
+    for(let i = 0; i < input.length; i++){
+        if(az.includes(input.charCodeAt(i)) || AZ.includes(input.charCodeAt(i))){
+            continue;
+        }else{
+            isValid = false
+            break;
+        }
+        
+
+    }
+    return isValid
+}
+
 
 //////////////////////////////////////////* End Of Starter Code *//////////////////////////////////////////
 // Any additional functions can be written below this line 👇. Happy Coding! 😁
