@@ -88,29 +88,63 @@ function searchByGender(people) {
         }else{
             return false;
         }
-    });
-    return res;
+
+
+    })
+    displayTraitPeople(res);
+
 }
 
 function searchByDOB(people) {
-
+    let dob = promptFor("What is the DOB of the person you're looking for?", isValid);
+    let res = people.filter(function(el){
+        if (el.dob == dob) {
+            return true;
+        }
+    })
+    displayTraitPeople(res)
 }
 
 function searchByWeight(people) {
-
+    let weight = promptFor("What is the weight of the person you're looking for?", isValid);
+    let res = people.filter(function(el){
+        if (el.weight == weight) {
+            return true;
+        }
+    })
+    displayTraitPeople(res)
 }
 
 function searchByHeight(people) {
-
+    let height = promptFor("What is the height of the person you're looking for?", isValid);
+    let res = people.filter(function(el){
+        if (el.height == height) {
+            return true;
+        }
+    })
+    displayTraitPeople(res)
 }
 
 function searchByEyeColor(people) {
-
+    let eyeColor = promptFor("What is the eye color of the person you're looking for?", isValid).toLowerCase();
+    let res = people.filter(function(el){
+        if (el.eyeColor == eyeColor) {
+            return true;
+        }
+    })
+    displayTraitPeople(res)
 }
 
 function searchByOccupation(people) {
-
+    let occupation = promptFor("What is the occupation of the person you're looking for?", isValid).toLowerCase();
+    let res = people.filter(function(el){
+        if (el.occupation == occupation) {
+            return true;
+        }
+    })
+    displayTraitPeople(res)
 }
+
 
 function searchByMultipleTraits(people) {
 
@@ -209,6 +243,14 @@ function searchByName(people) {
     .join("\n");
     return res
 }
+
+function displayTraitPeople(people) {
+    alert (people.map(function (person) {
+            return person.firstName + ' ' + person.lastName;
+        })
+    .join("\n")
+);
+}
 // End of displayPeople()
 
 /**
@@ -249,6 +291,9 @@ function displayPerson(person) {
     return response;
 }
 // End of promptFor()
+function isValid(input) {
+    return true; // Default validation only
+}
 
 /**
  * This helper function checks to see if the value passed into input is a "yes" or "no."
