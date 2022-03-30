@@ -409,7 +409,7 @@ function findPersonSiblings(person,people){
 //
 function findPersonDescendants(person,people,array = []){
     let subArray = findPersonChildren(person,people);
-    array = [person.id]
+    array = [person]
     if(subArray.length === 0){
         return array
     }
