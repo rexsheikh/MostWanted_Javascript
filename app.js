@@ -55,10 +55,19 @@ function searchByTrait(people) {
     switch(userInput) {
         case "1":
             searchResults = searchMultiTraits(people);
-            return searchResults
+            if(searchResults.length === 0){
+                alert('No individuals match this search')
+                app(people)
+            }else
+                displayTraitPeople(searchResults)
+            break;
         case "gender":
             searchResults = searchByGender(people);
-            displayTraitPeople(searchResults)
+            if(searchResults.length === 0){
+                alert('No individuals match this search')
+                app(people)
+            }else
+                displayTraitPeople(searchResults)
             break;
         case "dob": 
             searchResults = searchByDOB(people);
@@ -180,12 +189,12 @@ function mainMenu(person, people) {
  * @returns {Array}             An array containing the person-object (or empty array if no match)
  */
 function searchByName(people) {
-    let firstName = promptFor("What is the person's first name?", chars).toLowerCase();
-    let lastName = promptFor("What is the person's last name?", chars).toLowerCase();
+    let firstName = promptFor("What is the person's first name?", chars);
+    let lastName = promptFor("What is the person's last name?", chars);
 
     // The foundPerson value will be of type Array. Recall that .filter() ALWAYS returns an array.
     let foundPerson = people.filter(function (person) {
-        if (person.firstName.toLowerCase() === firstName && person.lastName.toLowerCase() === lastName) {
+        if (person.firstName === firstName && person.lastName === lastName) {
             return true;
         }
     });
@@ -253,6 +262,8 @@ function displayPerson(person) {
     } while (!response || !check(response));
     return response;
 }
+
+
 // End of promptFor()
 // function isValid(input) {
 //     return true; // Default validation only
@@ -456,7 +467,7 @@ function searchByOccupation(people) {
 
 //search multitraits
 
-let searchMap = {
+var searchMap = {
     'gender':searchByGender,
     'dob':searchByDOB,
     'height': searchByHeight,
@@ -477,6 +488,7 @@ function searchMultiTraits(people){
             return container[container.length -1];
         }else if(last_search.length === 0){
             alert('your search eliminated all possible candidates');  //maybe give option to go back
+            app(people);
             break;
         }else{
             currentSearch = searchMap[traits[0]](last_search)
