@@ -38,85 +38,9 @@ function app(people) {
             break;
     }
     // Calls the mainMenu() only AFTER we find the SINGLE PERSON
-    if(searchResults.length === 1){
-        mainMenu(searchResults, people);
-    }else{
-        return app(people)
-    }
+    mainMenu(searchResults, people);
 }
 // End of app()
-
-function searchByTrait(people) {
-    let searchResults;
-    let userInput = prompt(
-        "Would you like to search by Gender, DOB, Weight, Height, Eye Color, or Occupation? Or press 1 to search multiple traits"
-    );
-    userInput = userInput.toLowerCase();
-    switch(userInput) {
-        case "1":
-            searchResults = searchMultiTraits(people);
-            if(searchResults.length === 0){
-                alert('No individuals match this search')
-                app(people)
-            }else
-                displayTraitPeople(searchResults)
-            break;
-        case "gender":
-            searchResults = searchByGender(people);
-            if(searchResults.length === 0){
-                alert('No individuals match this search')
-                app(people)
-            }else
-                displayTraitPeople(searchResults)
-            break;
-        case "dob": 
-            searchResults = searchByDOB(people);
-            if(searchResults.length === 0){
-                alert('No individuals match this search')
-                app(people)
-            }else
-                displayTraitPeople(searchResults)
-                break;
-        case "weight":
-            searchResults = searchByWeight(people);
-            if(searchResults.length === 0){
-                alert('No individuals match this search')
-                app(people)
-            }else
-                displayTraitPeople(searchResults)
-                break;
-        case "height":
-            searchResults = searchByHeight(people);
-            if(searchResults.length === 0){
-                alert('No individuals match this search')
-                app(people)
-            }else
-                displayTraitPeople(searchResults)
-                break;
-        case "eye color":
-            searchResults = searchByEyeColor(people);
-            if(searchResults.length === 0){
-                alert('No individuals match this search')
-                app(people)
-            }else
-                displayTraitPeople(searchResults)
-                break;
-        case "occupation":
-            searchResults = searchByOccupation(people);
-            if(searchResults.length === 0){
-                alert('No individuals match this search')
-                app(people)
-            }else
-                displayTraitPeople(searchResults)
-                break;
-        default:
-            alert("Invalid Input");
-            app(people);
-            break;
-    }
-    return searchResults;
-}
-
 
 /**
  * After finding a single person, we pass in the entire person-object that we found,
@@ -128,15 +52,10 @@ function searchByTrait(people) {
  */
 function mainMenu(person, people) {
     // A check to verify a person was found via searchByName() or searchByTrait()
-
     if (!person[0]) {
         alert("Could not find an individual.");
         // Restarts app() from the very beginning
         return app(people);
-
-    }else if(person.length > 1){
-        alert('multiple individuals found.');
-        return app(people)
     }
 
     let displayOption = prompt(
@@ -189,12 +108,12 @@ function mainMenu(person, people) {
  * @returns {Array}             An array containing the person-object (or empty array if no match)
  */
 function searchByName(people) {
-    let firstName = promptFor("What is the person's first name?", chars);
-    let lastName = promptFor("What is the person's last name?", chars);
+    let firstName = promptFor("What is the person's first name?", chars).toLowerCase();
+    let lastName = promptFor("What is the person's last name?", chars).toLowerCase();
 
     // The foundPerson value will be of type Array. Recall that .filter() ALWAYS returns an array.
     let foundPerson = people.filter(function (person) {
-        if (person.firstName === firstName && person.lastName === lastName) {
+        if (person.firstName.toLowerCase() === firstName && person.lastName.toLowerCase() === lastName) {
             return true;
         }
     });
@@ -463,7 +382,78 @@ function searchByOccupation(people) {
     displayTraitPeople(res)
     return res
 }
+//search by trait
 
+function searchByTrait(people) {
+    let searchResults;
+    let userInput = prompt(
+        "Would you like to search by Gender, DOB, Weight, Height, Eye Color, or Occupation? Or press 1 to search multiple traits"
+    );
+    userInput = userInput.toLowerCase();
+    switch(userInput) {
+        case "1":
+            searchResults = searchMultiTraits(people);
+            if(searchResults.length === 0){
+                alert('No individuals match this search')
+                app(people)
+            }else
+                displayTraitPeople(searchResults)
+            break;
+        case "gender":
+            searchResults = searchByGender(people);
+            if(searchResults.length === 0){
+                alert('No individuals match this search')
+                app(people)
+            }else
+                displayTraitPeople(searchResults)
+            break;
+        case "dob": 
+            searchResults = searchByDOB(people);
+            if(searchResults.length === 0){
+                alert('No individuals match this search')
+                app(people)
+            }else
+                displayTraitPeople(searchResults)
+                break;
+        case "weight":
+            searchResults = searchByWeight(people);
+            if(searchResults.length === 0){
+                alert('No individuals match this search')
+                app(people)
+            }else
+                displayTraitPeople(searchResults)
+                break;
+        case "height":
+            searchResults = searchByHeight(people);
+            if(searchResults.length === 0){
+                alert('No individuals match this search')
+                app(people)
+            }else
+                displayTraitPeople(searchResults)
+                break;
+        case "eye color":
+            searchResults = searchByEyeColor(people);
+            if(searchResults.length === 0){
+                alert('No individuals match this search')
+                app(people)
+            }else
+                displayTraitPeople(searchResults)
+                break;
+        case "occupation":
+            searchResults = searchByOccupation(people);
+            if(searchResults.length === 0){
+                alert('No individuals match this search')
+                app(people)
+            }else
+                displayTraitPeople(searchResults)
+                break;
+        default:
+            alert("Invalid Input");
+            app(people);
+            break;
+    }
+    return searchResults;
+}
 
 //search multitraits
 
