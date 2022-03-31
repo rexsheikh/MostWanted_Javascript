@@ -38,7 +38,11 @@ function app(people) {
             break;
     }
     // Calls the mainMenu() only AFTER we find the SINGLE PERSON
-    mainMenu(searchResults, people);
+    if(searchResults.length === 1){
+        mainMenu(searchResults, people);
+    }else{
+        return app(people)
+    }
 }
 // End of app()
 
@@ -101,7 +105,7 @@ function searchByTrait(people) {
             app(people);
             break;
     }
-    // return searchResults;
+    return searchResults;
 }
 
 
@@ -115,11 +119,17 @@ function searchByTrait(people) {
  */
 function mainMenu(person, people) {
     // A check to verify a person was found via searchByName() or searchByTrait()
+
     if (!person[0]) {
-        alert("Could not find that individual.");
+        alert("Could not find an individual.");
         // Restarts app() from the very beginning
         return app(people);
+
+    }else if(person.length > 1){
+        alert('multiple individuals found.');
+        return app(people)
     }
+
     let displayOption = prompt(
         `Found ${person[0].firstName} ${person[0].lastName}. Do you want to know their 'info', 'family', or 'descendants'?\nType the option you want or type 'restart' or 'quit'.`
     );
@@ -132,15 +142,15 @@ function mainMenu(person, people) {
             alert(personInfo);
             break;
 
-            case "family":
-                //! TODO: Declare a findPersonFamily function //////////////////////////////////////////
-                // HINT: Look for a people-collection stringifier utility function to help
-                let siblings = findPersonSiblings(person[0],people)
-                let showSiblings = displayPeople(siblings)
-                let children = findPersonChildren(person[0],people)
-                let showChildren = displayPeople(children)
-                alert(`Parent(s): ${findPersonParent(person[0], people)}\nSpouse: ${findPersonSpouse(person[0], people)}\nChildren: ${showChildren}\nSiblings: ${showSiblings}`);
-                break;
+        case "family":
+            //! TODO: Declare a findPersonFamily function //////////////////////////////////////////
+            // HINT: Look for a people-collection stringifier utility function to help
+            let siblings = findPersonSiblings(person[0],people)
+            let showSiblings = displayPeople(siblings)
+            let children = findPersonChildren(person[0],people)
+            let showChildren = displayPeople(children)
+            alert(`Parent(s): ${findPersonParent(person[0], people)}\nSpouse: ${findPersonSpouse(person[0], people)}\nChildren: ${showChildren}\nSiblings: ${showSiblings}`);
+            break;
 
         case "descendants":
             //! TODO: Declare a findPersonDescendants function //////////////////////////////////////////
@@ -235,18 +245,18 @@ function displayPerson(person) {
  * @param {Function} valid      A callback function used to validate basic user input.
  * @returns {String}            The valid string input retrieved from the user.
  */
- function promptFor(question, valid) {
+ function promptFor(question, check) {
     let isValid;
     do {
         var response = prompt(question);
-        isValid = valid(response);
-    } while (!response || !valid(response));
+        isValid = check(response);
+    } while (!response || !check(response));
     return response;
 }
 // End of promptFor()
-function isValid(input) {
-    return true; // Default validation only
-}
+// function isValid(input) {
+//     return true; // Default validation only
+// }
 
 /**
  * This helper function checks to see if the value passed into input is a "yes" or "no."
@@ -269,19 +279,43 @@ function isValid(input) {
  * @returns {Boolean}           Default validation -- no logic yet.
  */
 function chars(input) {
-    let isValid = true
-    let az = range(97,122)
+    let charsCheck = true;
+    let az = range(97,122);
+    let AZ = range(65,90);
     for(let i = 0; i < input.length; i++){
-        if(az.includes(input.charCodeAt(i))){
+        if(az.includes(input.charCodeAt(i)) || AZ.includes(input.charCodeAt(i))){
             continue;
         }else{
-            isValid = false
-            break;
+            charsCheck = false;
+            return charsCheck
+            
         }
         
 
     }
-    return isValid
+    return charsCheck
+}
+
+function validDOB(input){
+    let dobCheck = true;
+    if(input.length === 0){
+        dobCheck = false
+    }
+    return dobCheck
+}
+
+function integers(input){
+    input = parseInt(input)
+    let integerCheck = true;
+    for(let i = 0; i < input.length; i++){
+        if(typeof(input[i]) === 'string'){
+            integerCheck = false
+            break;
+        }else{
+            continue
+        }
+    }
+    return integerCheck
 }
 
 
@@ -365,7 +399,7 @@ function searchByGender(people) {
 }
 
 function searchByDOB(people) {
-    let dob = promptFor("What is the DOB of the person you're looking for?", isValid);
+    let dob = (promptFor("What is the DOB of the person you're looking for? Enter month(2-digit)/day(2-digit)/year(4-digit)",validDOB))
     let res = people.filter(function(el){
         if (el.dob == dob) {
             return true;
@@ -376,7 +410,7 @@ function searchByDOB(people) {
 }
 
 function searchByWeight(people) {
-    let weight = promptFor("What is the weight of the person you're looking for?", isValid);
+    let weight = promptFor('What is the weight of the person you\'re looking for? Enter digits only', integers);
     let res = people.filter(function(el){
         if (el.weight == weight) {
             return true;
@@ -387,7 +421,7 @@ function searchByWeight(people) {
 }
 
 function searchByHeight(people) {
-    let height = promptFor("What is the height of the person you're looking for?", isValid);
+    let height = promptFor('What is the height of the person you\'re looking for? Enter height in inches without "', integers);
     let res = people.filter(function(el){
         if (el.height == height) {
             return true;
@@ -398,7 +432,7 @@ function searchByHeight(people) {
 }
 
 function searchByEyeColor(people) {
-    let eyeColor = promptFor("What is the eye color of the person you're looking for?", isValid).toLowerCase();
+    let eyeColor = promptFor("What is the eye color of the person you're looking for?", chars).toLowerCase();
     let res = people.filter(function(el){
         if (el.eyeColor == eyeColor) {
             return true;
@@ -409,7 +443,7 @@ function searchByEyeColor(people) {
 }
 
 function searchByOccupation(people) {
-    let occupation = promptFor("What is the occupation of the person you're looking for?", isValid).toLowerCase();
+    let occupation = promptFor("What is the occupation of the person you're looking for?", chars).toLowerCase();
     let res = people.filter(function(el){
         if (el.occupation == occupation) {
             return true;
