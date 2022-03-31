@@ -452,9 +452,12 @@ function searchByTrait(people) {
             app(people);
             break;
     }
-    return searchResults;
+    if(searchResults.length > 1){
+        app(people)
+    }else{
+        return searchResults;
 }
-
+}
 //search multitraits
 
 var searchMap = {
